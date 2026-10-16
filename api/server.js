@@ -62,6 +62,10 @@ const server = http.createServer(async (req, res) => {
       const [r] = await pool.query('INSERT INTO items (name) VALUES (?)', [name.slice(0, 100)]);
       return send(req, res, 201, { id: r.insertId, name });
     }
+    if (url === '/api/items/count') {
+      const [r] = await pool.query('SELECT COUNT(*) AS n FROM items');
+      return send(req, res, 200, { count: r[0].n });
+    }
     send(req, res, 404, { error: 'not found' });
   } catch (e) {
     console.error(e.message);

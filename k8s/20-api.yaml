@@ -28,12 +28,12 @@ spec:
           emptyDir: {}
       containers:
         - name: api
-          image: kaj1/three-tier-api:1.0.0
+          image: kaj1/three-tier-api:1.1.0
           ports:
             - containerPort: 3000
           env:
             - name: APP_VERSION
-              value: "1.0.0"
+              value: "1.1.0"
             - name: DB_HOST
               value: mysql
             - name: DB_PASSWORD

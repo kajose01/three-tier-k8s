@@ -97,3 +97,4 @@ Result: 5 passed, 0 failed (`evidence/networkpolicy-test.log`). An end-to-end re
 | Tag | Images | Notes |
 |---|---|---|
 | v1.0.0 | api 1.0.0, web 1.0.0 | First release |
+| v1.1.0 | api 1.1.0, web 1.1.0 | Adds `GET /api/items/count`; frontend heading shows v1.1; rolled out with zero downtime |

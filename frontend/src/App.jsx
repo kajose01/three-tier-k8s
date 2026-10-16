@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <main style={{ fontFamily: 'sans-serif', maxWidth: 520, margin: '40px auto' }}>
-      <h1>Three-Tier Demo</h1>
+      <h1>Three-Tier Demo v1.1</h1>
       <p>React on NGINX → Node API → MySQL{info ? ` (API ${info.version}, pod ${info.pod})` : ''}</p>
       {error && <p style={{ color: 'crimson' }}>Error: {error}</p>}
       <form onSubmit={add}>
