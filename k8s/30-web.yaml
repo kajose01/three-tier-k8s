@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: three-tier
+spec:
+  type: LoadBalancer
+  selector: { app: web }
+  ports:
+    - port: 8081
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: three-tier
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: web }
+  template:
+    metadata:
+      labels: { app: web, tier: frontend }
+    spec:
+      containers:
+        - name: web
+          image: kaj1/three-tier-web:1.0.0
+          ports:
+            - containerPort: 8080
+          resources:
+            requests: { cpu: 25m, memory: 16Mi }
+            limits:   { cpu: 200m, memory: 64Mi }
+          readinessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false

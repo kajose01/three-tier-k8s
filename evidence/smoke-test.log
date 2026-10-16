@@ -1,0 +1,36 @@
+== services/pods/pvc
+NAME                       READY   STATUS    RESTARTS   AGE
+pod/api-8696db4646-bd5v4   2/2     Running   0          30m
+pod/api-8696db4646-lqfwn   2/2     Running   0          30m
+pod/mysql-0                1/1     Running   0          31m
+pod/web-8c7f5488b-dgsbg    1/1     Running   0          30m
+pod/web-8c7f5488b-pz4vv    1/1     Running   0          30m
+
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)          AGE
+service/api     ClusterIP      10.43.243.250   <none>         3000/TCP         30m
+service/mysql   ClusterIP      10.43.156.19    <none>         3306/TCP         31m
+service/web     LoadBalancer   10.43.195.17    172.31.27.20   8081:31630/TCP   30m
+
+NAME                                       STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/mysql-data-mysql-0   Bound    pvc-c5684729-4e31-4234-b270-4841143b7499   1Gi        RWO            local-path     <unset>                 31m
+
+NAME                                                     POD-SELECTOR   AGE
+networkpolicy.networking.k8s.io/allow-dns-egress         <none>         4m22s
+networkpolicy.networking.k8s.io/allow-ingress-to-web     app=web        4m22s
+networkpolicy.networking.k8s.io/api-egress-to-mysql      app=api        4m22s
+networkpolicy.networking.k8s.io/api-ingress-from-web     app=api        4m22s
+networkpolicy.networking.k8s.io/default-deny-all         <none>         4m22s
+networkpolicy.networking.k8s.io/mysql-ingress-from-api   app=mysql      4m22s
+networkpolicy.networking.k8s.io/web-egress-to-api        app=web        4m22s
+
+== curl via LoadBalancer :8081
+{"version":"1.0.0","pod":"api-8696db4646-lqfwn"}
+[{"id":1,"name":"first item","created_at":"2026-10-16T09:57:16.000Z"}]
+
+== sidecar log (shared volume)
+Found 2 pods, using pod/api-8696db4646-bd5v4
+2026-10-16T10:00:18.198Z GET /health 200
+2026-10-16T10:00:20.961Z GET /ready 200
+2026-10-16T10:00:25.961Z GET /ready 200
+2026-10-16T10:00:28.197Z GET /health 200
+2026-10-16T10:00:30.961Z GET /ready 200

@@ -1,0 +1,6 @@
+PASS  app=web                            -> api:3000     expected=open    got=open
+PASS  app=other                          -> api:3000     expected=blocked got=blocked
+PASS  app=api                            -> mysql:3306   expected=open    got=open
+PASS  app=web                            -> mysql:3306   expected=blocked got=blocked
+PASS  app=other                          -> mysql:3306   expected=blocked got=blocked
+RESULT: 5 passed, 0 failed
